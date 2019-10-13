@@ -11,8 +11,8 @@
 
 #define MAXNUMBEROfTASKS 10
 #include "std_types.h"
+#include "TIMER.h"
 
-//typedef enum {motor0, motor1, seg0, seg1, seg2, seg3, led_flag, NUM_OF_PINS} pintype;
 
 typedef enum {
 	ONE_SHOT,
@@ -25,17 +25,23 @@ typedef enum {
 	} task_state;
 
 typedef enum {
+	ACTIVE,
+	DISABLED,
+} flag_state;
+/*
+typedef enum {
 	TIMER0,
 	TIMER1,
 	TIMER2,
-	} timer_id;
+	} timer_id;*/
 
 typedef struct
 {
-	void (*app)(void);
+	void (*app_ptr)(void);
 	periodicity per;
 	uint8 freq;
 	task_state state;
+	uint32 start;
 }buff;
 
 extern buff buffer [MAXNUMBEROfTASKS];

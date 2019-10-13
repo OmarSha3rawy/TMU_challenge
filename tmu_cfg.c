@@ -7,7 +7,6 @@
 
 #include "tmu_cfg.h"
 
-#define NULL 0
 
 
 buff buffer [MAXNUMBEROfTASKS] =

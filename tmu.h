@@ -11,11 +11,11 @@
 
 #include "tmu_cfg.h"
 
-typedef enum{NOK,OK}func_state;
+//typedef enum{NOK,OK}func_state;
 
-func_state TMU_init(timer_id id, uint8 resolution);
-func_state TMU_start(void (*app)(void), periodicity per, uint8 freq);
-func_state TMU_stopTimer(void (*app)(void));
-func_state TMU_dispatcher();
+uint8 TMU_init(uint8 id, uint8 resolution);
+uint8 TMU_start(void (*application)(void), periodicity per, uint32 freq);
+uint8 TMU_stopTimer(void (*application)(void));
+uint8 TMU_dispatcher();
 
 #endif /* TMU_H_ */
