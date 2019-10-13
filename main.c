@@ -18,10 +18,10 @@ void togg_led2();
 
 int main(void)
 {
-	DDRC = 0xff;
+	//DDRC = 0xff; //for tesring
 	DIO_init();
 	TMU_init(TIMER0, 1);
-	TMU_start(togg_led,PERIODIC, 3000 );
+	TMU_start(togg_led,PERIODIC, 2000 );
 	//TMU_start(togg_led2,PERIODIC, 5000 );
 
     while (1) 

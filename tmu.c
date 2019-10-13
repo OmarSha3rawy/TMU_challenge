@@ -91,9 +91,12 @@ uint8 TMU_dispatcher()
 		for(i = 0; i < MAXNUMBEROfTASKS; i++)
 		{
 			//if( ( ((ov_counter - buffer[i].start) % buffer[i].freq == 0) || ((buffer[i].start - ov_counter) % buffer[i].freq == 0) ) && (buffer[i].state == RUNNING) )
-			if( ( ((ov_counter - buffer[i].start) % buffer[i].freq == 0) ) && (buffer[i].state == RUNNING) )
+			//if( ( ((ov_counter - buffer[i].start) % buffer[i].freq == 0) ) && (buffer[i].state == RUNNING) )
+			if( ov_counter % buffer[i].freq == 0  && (buffer[i].state == RUNNING) )
+
 
 			{
+				//buffer[i].start = ov_counter;
 				if(buffer[i].per == ONE_SHOT)
 				{
 					(buffer[i].app_ptr)();
