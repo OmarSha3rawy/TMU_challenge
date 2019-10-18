@@ -8,7 +8,7 @@
 #include "REG_Lib.h"
 #include "DIO.h"
 #include "tmu.h"
-#define F_CPU 1000000UL 
+#define F_CPU 8000000UL 
 
 void processor_sleep();
 void togg_led();
@@ -18,17 +18,19 @@ void togg_led2();
 
 int main(void)
 {
-	//DDRC = 0xff; //for tesring
+	DDRA = 0xff;
+
+	//DDRC = 0xff; //for testing
 	DIO_init();
 	TMU_init(TIMER0, 1);
-	TMU_start(togg_led,PERIODIC, 2000 );
-	//TMU_start(togg_led2,PERIODIC, 5000 );
+	TMU_start(togg_led,PERIODIC, (uint16)1000 );
+	TMU_start(togg_led2,PERIODIC, (uint16)3000 );
 
     while (1) 
     {
 		TMU_dispatcher();
 		
-		processor_sleep();
+	//	processor_sleep();
     }
 }
 

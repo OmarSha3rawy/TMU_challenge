@@ -9,9 +9,9 @@
 
 buff buffer [MAXNUMBEROfTASKS];
 
-flag_state tick_flag = DISABLED;
-uint32 ov_counter = 0;
-uint8 ov_counter_assistant = 0;
+static volatile flag_state tick_flag = DISABLED;
+static volatile uint16 ov_counter = 0;
+static volatile uint8 ov_counter_assistant = 0;
 
 uint8 res;
 
@@ -24,6 +24,7 @@ void overflow_count()
 		ov_counter_assistant = 0;
 		tick_flag = ACTIVE;
 	}
+		
 }
 
 uint8 TMU_init(uint8 id, uint8 resolution)
@@ -50,7 +51,7 @@ uint8 TMU_init(uint8 id, uint8 resolution)
 	return OK;
 }
 
-uint8 TMU_start(void (*application)(void), periodicity per, uint32 freq)
+uint8 TMU_start(void (*application)(void), periodicity period, uint16 frequency)
 {
 	uint8 i;
 	for(i = 0; i < MAXNUMBEROfTASKS; i++)
@@ -58,10 +59,11 @@ uint8 TMU_start(void (*application)(void), periodicity per, uint32 freq)
 		if(buffer[i].app_ptr == NULL)
 		{
 			buffer[i].app_ptr = application;
-			buffer[i].per = per;
-			buffer[i].freq = freq;
+			buffer[i].per = period;
+			buffer[i].freq = frequency;
 			buffer[i].state = RUNNING ;
 			buffer[i].start = ov_counter;
+			
 			return OK;
 		}
 	}
@@ -85,17 +87,30 @@ uint8 TMU_stopTimer(void (*application)(void))
 
 uint8 TMU_dispatcher()
 {
-	uint8 i;
+	PORTA ^= 1<<4;
 	if (tick_flag == ACTIVE)
 	{
-		for(i = 0; i < MAXNUMBEROfTASKS; i++)
+		PORTA ^= 1<<6;
+
+		for(uint8 i = 0; i < MAXNUMBEROfTASKS; i++)
 		{
 			//if( ( ((ov_counter - buffer[i].start) % buffer[i].freq == 0) || ((buffer[i].start - ov_counter) % buffer[i].freq == 0) ) && (buffer[i].state == RUNNING) )
 			//if( ( ((ov_counter - buffer[i].start) % buffer[i].freq == 0) ) && (buffer[i].state == RUNNING) )
-			if( ov_counter % buffer[i].freq == 0  && (buffer[i].state == RUNNING) )
-
-
+/*
+			if(ov_counter % buffer[i].freq == 0)
 			{
+				//PORTA ^= 1<<4;
+				if(buffer[i].freq == (uint16)3000)
+				{
+					PORTA |= (1<<3);
+				}
+			}*/
+
+			if( (ov_counter % buffer[i].freq == 0 ) && (buffer[i].state == RUNNING) )
+			{
+			
+				/*PORTA ^= 1<<7;*/
+				
 				//buffer[i].start = ov_counter;
 				if(buffer[i].per == ONE_SHOT)
 				{

@@ -9,24 +9,24 @@
 #ifndef TMU_CFG_H_
 #define TMU_CFG_H_
 
-#define MAXNUMBEROfTASKS 10
+#define MAXNUMBEROfTASKS 5
 #include "std_types.h"
 #include "TIMER.h"
 
 
 typedef enum {
 	ONE_SHOT,
-	PERIODIC,
+	PERIODIC
 	} periodicity;
 	
 typedef enum {
 	FINISHED,
-	RUNNING,
+	RUNNING
 	} task_state;
 
 typedef enum {
-	ACTIVE,
 	DISABLED,
+	ACTIVE
 } flag_state;
 /*
 typedef enum {
@@ -39,9 +39,9 @@ typedef struct
 {
 	void (*app_ptr)(void);
 	periodicity per;
-	uint8 freq;
+	uint16 freq;
 	task_state state;
-	uint32 start;
+	uint16 start;
 }buff;
 
 extern buff buffer [MAXNUMBEROfTASKS];

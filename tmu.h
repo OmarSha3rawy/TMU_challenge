@@ -14,7 +14,9 @@
 //typedef enum{NOK,OK}func_state;
 
 uint8 TMU_init(uint8 id, uint8 resolution);
-uint8 TMU_start(void (*application)(void), periodicity per, uint32 freq);
+//uint8 TMU_start(void (*application)(void), periodicity per, uint32 freq);
+uint8 TMU_start(void (*application)(void), periodicity period, uint16 frequency);
+
 uint8 TMU_stopTimer(void (*application)(void));
 uint8 TMU_dispatcher();
 
